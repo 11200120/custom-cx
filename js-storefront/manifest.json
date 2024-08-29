@@ -6,7 +6,7 @@
       "path": "sagajib2b",
       "ssr": {
         "enabled": true,
-        "path": "dist/sagajib2b/server/main.js"
+        "path": "dist/sagajib2b/server/server.mjs"
       },
       "csr": {
         "webroot": "dist/sagajib2b/browser/"
