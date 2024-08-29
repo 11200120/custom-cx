@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+--><project name="sagajibackoffice_buildcallbacks">
+    	
+    <property name="sagajibackofficeWebFragmentSrc" value="${ext.sagajibackoffice.path}/resources/web-fragment.xml"/>
+    	
+    <property name="sagajibackofficeWebFragmentDestJar" value="${ext.backoffice.path}/web/webroot/WEB-INF/lib/webfragmentExt_sagajibackoffice.jar"/>
+    	
+    <macrodef name="sagajibackoffice_clean_classpath_file">
+        		
+        <sequential>
+            			
+            <copy failonerror="true" file="${ext.sagajibackoffice.path}/.classpath" overwrite="true" tofile="${ext.sagajibackoffice.path}/.classpath.edit">
+                				
+                <filterchain>
+                    					
+                    <linecontainsregexp negate="true">
+                        						
+                        <regexp pattern="^(\t\t\t\t|)$"/>
+                          
+                        <!-- added by script -->
+                        					
+                    </linecontainsregexp>
+                    				
+                </filterchain>
+                			
+            </copy>
+            			
+            <move failonerror="true" file="${ext.sagajibackoffice.path}/.classpath.edit" overwrite="true" tofile="${ext.sagajibackoffice.path}/.classpath"/>
+            		
+        </sequential>
+        	
+    </macrodef>
+    	
+    <macrodef name="sagajibackoffice_after_clean">
+        		
+        <sequential>
+            			
+            <echo level="info" message="Generating .classpath file for sagajibackoffice"/>
+            			
+            <create_extension_classpath_file extname="sagajibackoffice"/>
+            			
+            <sagajibackoffice_clean_classpath_file/>
+            			
+            <sagajibackoffice_remove_web_fragment/>
+            		
+        </sequential>
+        	
+    </macrodef>
+    	
+    <macrodef name="sagajibackoffice_after_build">
+        		
+        <sequential>
+            			
+            <sagajibackoffice_remove_web_fragment/>
+            			
+            <sagajibackoffice_create_web_fragment/>
+            		
+        </sequential>
+        	
+    </macrodef>
+    	
+    <macrodef name="sagajibackoffice_remove_web_fragment">
+        		
+        <sequential>
+            			
+            <if>
+                				
+                <available file="${sagajibackofficeWebFragmentDestJar}"/>
+                				
+                <then>
+                    					
+                    <delete file="${sagajibackofficeWebFragmentDestJar}"/>
+                    				
+                </then>
+                			
+            </if>
+            		
+        </sequential>
+        	
+    </macrodef>
+    	
+    <macrodef name="sagajibackoffice_create_web_fragment">
+        		
+        <sequential>
+            			
+            <if>
+                				
+                <available file="${sagajibackofficeWebFragmentSrc}"/>
+                				
+                <then>
+                    					
+                    <sequential>
+                        						
+                        <jar destfile="${sagajibackofficeWebFragmentDestJar}">
+                            							
+                            <metainf file="${sagajibackofficeWebFragmentSrc}"/>
+                            						
+                        </jar>
+                        					
+                    </sequential>
+                    				
+                </then>
+                			
+            </if>
+            		
+        </sequential>
+        	
+    </macrodef>
+    	
+    <patternset id="sagajibackoffice.localization.pattern">
+        		
+        <!-- core and hmc  -->
+        		
+        <include name="**/*locales*_en.properties"/>
+        		
+        <exclude name="**/hmc/web/webroot/WEB-INF/classes/**/*"/>
+        		
+        <exclude name="**/unittest/**/*"/>
+        		
+        <!-- cockpit (ng) -->
+        		
+        <include name="**/i3-label_en.properties"/>
+        		
+        <include name="**/labels_en.properties"/>
+        		
+        <!-- messages -->
+        		
+        <include name="**/*messages_en.properties"/>
+        		
+        <include name="**/*messages.properties"/>
+        		
+        <!-- frontend properties files in WEB-INF/messages folder -->
+        		
+        <include name="**/WEB-INF/messages/*_en.properties"/>
+        		
+        <!-- csv and impex -->
+        		
+        <include name="**/*_en.csv"/>
+        		
+        <include name="**/*_en.impex"/>
+        		
+        <include name="**/lang-en.properties"/>
+        		
+        <!-- email localizations from yacceleratorcore -->
+        		
+        <include name="resources/**/messages/*_en.properties"/>
+        		
+        <!-- include validation messages -->
+        		
+        <include name="resources/**/ValidationMessages.properties"/>
+        	
+    </patternset>
+    	
+    <macrodef name="sagajibackoffice_before_build">
+        		
+        <sequential>
+            			
+            <register_sass_extension extensionname="sagajibackoffice"/>
+            			
+            <register_sass_extension destination="" extensionname="sagajibackoffice" resources="resources"/>
+            		
+        </sequential>
+        	
+    </macrodef>
+    
+</project>

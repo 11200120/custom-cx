@@ -1,0 +1,71 @@
+##############################################################
+##################### Folders to ignore ######################
+
+/hybris/
+**/classes/
+**/idea-module-files/
+**/gensrc/
+**/jalo/
+**/allMedia/
+**/node_modules/*
+
+**/hmc/resources/hmc.xsd
+**/.classpath.bak
+
+##############################################################
+################ Filename patterns to ignore #################
+
+bin/**/build.xml
+custom/**/build.xml
+.metadata
+*.class
+Generated*.java
+platformhome.properties
+*testclasses.xml
+extensioninfo.xsd
+*hmc.jar
+hmc.xsd
+items.xsd
+beans.xsd
+ruleset.xml
+*.log
+base.properties
+**/css/style*.css
+*.rpm
+pid\.lock
+.scannerwork
+rebel.xml
+*_bof.jar
+
+##############################################################
+##################### IDE Related files ######################
+
+# Eclipse #
+.settings/
+**/eclipsebin/*
+**/eclipsebin_backoffice/*
+**/.metadata/
+**/.metadata*
+**/RemoteSystemsTempFiles/
+**/.recommenders
+# IntelliJ #
+.idea
+*.iws
+*.iml
+/idea-module-files/*
+idea/*
+
+##############################################################
+##################### OS generated files #####################
+
+.DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db
+
+##############################################################
+################ Deprecated Extension Folders ################
+
+**/lib/.lastupdate
+core-customize/hybris/bin/custom/**/build.xml
+

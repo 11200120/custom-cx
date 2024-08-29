@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<alias name="defaultB2BSearchResultProductPopulator" alias="b2bSearchResultProductPopulator"/>
+	<bean id="defaultB2BSearchResultProductPopulator" class="de.hybris.platform.sagajib2bwebservices.populators.B2BSearchResultProductPopulator"/>
+
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="commerceSearchResultProductConverter"/>
+		<property name="add" ref="b2bSearchResultProductPopulator"/>
+	</bean>
+
+	<alias name="defaultQuoteNameValidator" alias="quoteNameValidator"/>
+	<bean id="defaultQuoteNameValidator"
+	      class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="name"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldTooLongValidator">
+					<property name="fieldPath" value="name"/>
+					<property name="maxLength" value="255" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultQuoteDescriptionValidator" alias="quoteDescriptionValidator"/>
+	<bean id="defaultQuoteDescriptionValidator" class="de.hybris.platform.webservicescommons.validators.FieldTooLongValidator">
+		<property name="fieldPath" value="description"/>
+		<property name="maxLength" value="255" />
+	</bean>
+
+	<alias name="defaultQuoteCommentValidator" alias="quoteCommentValidator"/>
+	<bean id="defaultQuoteCommentValidator"
+		  class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="text"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultDiscountTypeValidator" alias="discountTypeValidator"/>
+	<bean id="defaultDiscountTypeValidator"
+		  class="de.hybris.platform.webservicescommons.validators.EnumValueValidator">
+		<constructor-arg value="DiscountType"/>
+		<property name="enumerationService" ref="enumerationService"/>
+	</bean>
+</beans>

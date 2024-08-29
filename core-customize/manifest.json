@@ -1,0 +1,207 @@
+{
+  "commerceSuiteVersion": "2211",
+  "extensionPacks": [
+    {
+      "name": "hybris-commerce-integrations",
+      "version": "2211.24"
+    }
+  ],
+  "enableImageProcessingService": true,
+  "extensions": [
+    "cloudmediaconversion",
+    "mediaconversionbackoffice",
+    "azurecloudhotfolder"
+  ],
+  "useConfig": {
+    "properties": [
+      {
+        "location": "hybris/config/environments/ccv2/common/persona.properties"
+      },
+      {
+        "location": "hybris/config/environments/ccv2/development/persona.properties",
+        "persona": "development"
+      },
+      {
+        "location": "hybris/config/environments/ccv2/staging/persona.properties",
+        "persona": "staging"
+      },
+      {
+        "location": "hybris/config/environments/ccv2/production/persona.properties",
+        "persona": "production"
+      }
+    ],
+    "extensions": {
+      "location": "hybris/config/environments/ccv2/localextensions.xml",
+      "exclude": []
+    },
+    "solr": {
+      "location": "hybris/config/environments/common/solr"
+    }
+  },
+  "aspects": [
+    {
+      "name": "backoffice",
+      "properties": [],
+      "webapps": [
+        {
+          "name": "hac",
+          "contextPath": "/hac"
+        },
+        {
+          "name": "mediaweb",
+          "contextPath": "/medias"
+        },
+        {
+          "name": "backoffice",
+          "contextPath": "/backoffice"
+        },
+        {
+          "name": "odata2webservices",
+          "contextPath": "/odata2webservices"
+        },
+        {
+          "name": "oauth2",
+          "contextPath": "/authorizationserver"
+        }
+      ]
+    },
+    {
+      "name": "backgroundProcessing",
+      "properties": [
+        {
+          "key": "cluster.node.groups",
+          "value": "backgroundProcessing,integration,yHotfolderCandidate"
+        },
+        {
+          "key": "cloud.commons.monitoring.database.enabled",
+          "value": "true"
+        },
+        {
+          "key": "cloud.commons.monitoring.logging.enabled",
+          "value": "true"
+        },
+        {
+          "key": "cloud.commons.monitoring.metric.timer.enabled",
+          "value": "true"
+        },
+        {
+          "key": "cloud.commons.monitoring.metric.histogram.enabled",
+          "value": "true"
+        },
+        {
+          "key": "cloud.commons.monitoring.metric.counter.enabled",
+          "value": "true"
+        },
+        {
+          "key": "cloud.hotfolder.default.mapping.header.net",
+          "value": "true"
+        },
+        {
+          "key": "azure.hotfolder.storage.polling.fixed.rate",
+          "value": "20000"
+        }
+      ],
+      "webapps": [
+        {
+          "name": "hac",
+          "contextPath": "/hac"
+        },
+        {
+          "name": "backoffice",
+          "contextPath": "/backoffice"
+        },
+        {
+          "name": "mediaweb",
+          "contextPath": "/medias"
+        },
+        {
+          "name": "mediaconversion",
+          "contextPath": "/mediaconversion"
+        },
+        {
+          "name": "processing",
+          "contextPath": "/processing"
+        }
+      ]
+    },
+    {
+      "name": "api",
+      "properties": [],
+      "webapps": [
+        {
+          "name": "hac",
+          "contextPath": "/hac"
+        },
+        {
+          "name": "backoffice",
+          "contextPath": "/backoffice"
+        },
+        {
+          "name": "mediaweb",
+          "contextPath": "/medias"
+        },
+        {
+          "name": "smartedit",
+          "contextPath": "/smartedit"
+        },
+        {
+          "name": "cmssmartedit",
+          "contextPath": "/cmssmartedit"
+        },
+        {
+          "name": "smarteditwebservices",
+          "contextPath": "/smarteditwebservices"
+        },
+        {
+          "name": "cmssmarteditwebservices",
+          "contextPath": "/cmssmarteditwebservices"
+        },
+        {
+          "name": "acceleratorservices",
+          "contextPath": "/acceleratorservices"
+        },
+        {
+          "name": "oauth2",
+          "contextPath": "/authorizationserver"
+        },
+        {
+          "name": "cmswebservices",
+          "contextPath": "/cmswebservices"
+        },
+        {
+          "name": "permissionswebservices",
+          "contextPath": "/permissionswebservices"
+        },
+        {
+          "name": "previewwebservices",
+          "contextPath": "/previewwebservices"
+        },
+        {
+          "name": "personalizationsmartedit",
+          "contextPath": "/personalizationsmartedit"
+        },
+        {
+          "name": "personalizationpromotionssmartedit",
+          "contextPath": "/personalizationpromotionssmartedit"
+        },
+        {
+          "name": "personalizationwebservices",
+          "contextPath": "/personalizationwebservices"
+        },
+        {
+          "name": "personalizationsearchsmartedit",
+          "contextPath": "/personalizationsearchsmartedit"
+        },
+        {
+          "name": "assistedservicewebservices",
+          "contextPath": "/assistedservicewebservices"
+        },
+        {
+          "name": "commercewebservices",
+          "contextPath": "/occ"
+        }
+      ]
+    }
+  ],
+  "solrVersion": "9.5"
+}

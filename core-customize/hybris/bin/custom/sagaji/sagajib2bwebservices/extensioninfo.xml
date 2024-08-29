@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+--><extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
+        	
+    
+    <extension abstractclassprefix="Generated" classprefix="Sagajib2bwebservices" description="sagajib2bwebservices extension"
+               managername="B2boccManager" managersuperclass="de.hybris.platform.jalo.extension.Extension" name="sagajib2bwebservices">
+
+        <requires-extension name="b2bwebservicescommons"/>
+        <requires-extension name="b2bacceleratorfacades"/>
+        <requires-extension name="assistedservicefacades"/>
+        <requires-extension name="commercewebservices"/>
+
+        <coremodule generated="true" manager="de.hybris.platform.sagajib2bwebservices.jalo.B2boccManager" packageroot="de.hybris.platform.sagajib2bwebservices"/>
+    </extension>
+</extensioninfo>

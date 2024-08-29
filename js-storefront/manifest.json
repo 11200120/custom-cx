@@ -1,0 +1,17 @@
+{
+  "disableImageReuse": true,
+  "applications": [
+    {
+      "name": "sagajib2b",
+      "path": "sagajib2b",
+      "ssr": {
+        "enabled": true,
+        "path": "dist/sagajib2b/server/main.js"
+      },
+      "csr": {
+        "webroot": "dist/sagajib2b/browser/"
+      }
+    }
+  ],
+  "nodeVersion": "20"
+}

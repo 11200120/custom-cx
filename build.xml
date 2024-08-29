@@ -1,0 +1,140 @@
+<project name="sagaji" default="development" basedir="..">
+
+    <property environment="env"/>
+    <property name="envdir" value="${basedir}/custom-cx/core-customize/hybris/config/environments"/>
+    <property name="environment" value="local"/>
+
+    <tstamp>
+        <format property="TODAY_MY" pattern="yyyy-MM-dd-HH:mm:ss" locale="es"/>
+    </tstamp>
+
+    <target name="init">
+        <!-- ant contrib library -->
+        <taskdef resource="net/sf/antcontrib/antlib.xml">
+            <classpath>
+                <pathelement location="hybris/bin/platform/lib/ant-contrib-1.0b3.jar"/>
+            </classpath>
+        </taskdef>
+        <!-- end ant contrib library -->
+
+        <!-- check for hybris folder -->
+        <available file="${basedir}/hybris" type="dir" property="hybris.present"/>
+        <if>
+            <isset property="hybris.present"/>
+            <then>
+                <echo message="Init config.."/>
+            </then>
+            <else>
+                <echo message="hybris not found: extract target version of hybris into folder ${basedir}"/>
+            </else>
+        </if>
+    </target>
+
+    <!-- Environments -->
+    <target name="common" depends="init">
+        <echo message="Copying environment... (localextensions.xml, local.properties, solr folder, etc)"/>
+        <copy todir="${basedir}/hybris" overwrite="true">
+            <fileset dir="${envdir}/${environment}/hybris"/>
+        </copy>
+        <copy todir="${basedir}/hybris/config/solr/instances/default" overwrite="true">
+            <fileset dir="${basedir}/hybris/bin/modules/search-and-navigation/solrserver/resources/solr/8.11/server/server/solr"/>
+        </copy>
+        <copy todir="${basedir}/hybris/bin/modules/search-and-navigation/solrserver/resources/solr/8.11/server/modules/analysis-extras/lib" overwrite="true">
+            <fileset dir="${basedir}/hybris/bin/modules/search-and-navigation/solrserver/resources/solr/8.11/server/contrib/analysis-extras/lib"/>
+        </copy>
+        <copy todir="${basedir}/hybris/bin/modules/search-and-navigation/solrserver/resources/solr/8.11/server/modules/hybris/lib" overwrite="true">
+            <fileset dir="${basedir}/hybris/bin/modules/search-and-navigation/solrserver/resources/solr/9.5/customizations/files/modules/hybris/lib"/>
+        </copy>
+        <copy todir="${basedir}/hybris/config/solr/instances/default/configsets/default" overwrite="true">
+            <fileset dir="${envdir}/common/solr/server/solr/configsets/default/"/>
+        </copy>
+    </target>
+
+    <target name="development" depends="common,cleanJalo">
+        <antcall target="copyGitInfo"/>
+    </target>
+
+    <!-- BEGIN: Git Versioning -->
+
+    <available file="${user.dir}/.git" type="dir" property="git.present"/>
+
+    <target name="copyGitInfo" depends="findGitInfo">
+        <echo message="copying Git info to local.properties..."/>
+        <echo file="${basedir}/hybris/config/local.properties" append="true">${line.separator}</echo>
+        <echo file="${basedir}/hybris/config/local.properties" append="true">${line.separator}############</echo>
+        <echo file="${basedir}/hybris/config/local.properties" append="true">${line.separator}# GIT Info #</echo>
+        <echo file="${basedir}/hybris/config/local.properties" append="true">${line.separator}############</echo>
+        <echo file="${basedir}/hybris/config/local.properties" append="true">${line.separator}git.last.commit.date=${repository.commit.date}</echo>
+        <echo file="${basedir}/hybris/config/local.properties" append="true">${line.separator}git.last.commit.hash=${repository.commit.short.hash}</echo>
+        <echo file="${basedir}/hybris/config/local.properties" append="true">${line.separator}git.last.commit.author=${repository.last.commit.author}</echo>
+        <echo file="${basedir}/hybris/config/local.properties" append="true">${line.separator}git.last.commit.title=${repository.last.commit.title}</echo>
+        <echo file="${basedir}/hybris/config/local.properties" append="true">${line.separator}build.environment.date=${TODAY_MY}</echo>
+    </target>
+
+    <target name="findGitInfo" if="git.present">
+
+        <!-- last commit date -->
+        <exec dir="custom-cx" executable="git" outputproperty="git.commit.date" failifexecutionfails="false" errorproperty="">
+            <arg value="log"/>
+            <arg value="-1"/>
+            <arg value="--format=%cd"/>
+        </exec>
+        <condition property="repository.commit.date" value="${git.commit.date}" else="unknown">
+            <and>
+                <isset property="git.commit.date"/>
+                <length string="${git.commit.date}" trim="yes" length="0" when="greater"/>
+            </and>
+        </condition>
+
+        <!-- last commit short hash -->
+        <exec dir="custom-cx" executable="git" outputproperty="git.commit.short.hash" failifexecutionfails="false" errorproperty="">
+            <arg value="rev-parse"/>
+            <arg value="--short"/>
+            <arg value="HEAD"/>
+        </exec>
+        <condition property="repository.commit.short.hash" value="${git.commit.short.hash}" else="unknown">
+            <and>
+                <isset property="git.commit.short.hash"/>
+                <length string="${git.commit.short.hash}" trim="yes" length="0" when="greater"/>
+            </and>
+        </condition>
+        <!-- last commit author -->
+        <exec dir="custom-cx" executable="git" outputproperty="git.last.commit.author" failifexecutionfails="false" errorproperty="">
+            <arg value="log"/>
+            <arg value="-1"/>
+            <arg value="--format=%an"/>
+        </exec>
+        <condition property="repository.last.commit.author" value="${git.last.commit.author}" else="unknown">
+            <and>
+                <isset property="git.last.commit.author"/>
+                <length string="${git.last.commit.author}" trim="yes" length="0" when="greater"/>
+            </and>
+        </condition>
+
+        <!-- last commit title-->
+        <exec dir="custom-cx" executable="git" outputproperty="git.last.commit.title" failifexecutionfails="false" errorproperty="">
+            <arg value="log"/>
+            <arg value="-1"/>
+            <arg value="--format=%s"/>
+        </exec>
+        <condition property="repository.last.commit.title" value="${git.last.commit.title}" else="unknown">
+            <and>
+                <isset property="git.last.commit.title"/>
+                <length string="${git.last.commit.title}" trim="yes" length="0" when="greater"/>
+            </and>
+        </condition>
+
+        <echo message="Current commit short hash: ${repository.commit.short.hash}"/>
+        <echo message="Current commit date: ${repository.commit.date}"/>
+    </target>
+
+    <!-- END: Git Versioning -->
+
+    <target name="cleanJalo" description="Delete all Jalo's">
+        <echo message="Deleting all jalo files..."/>
+        <delete verbose="true">
+            <fileset dir="./custom-cx/core-customize/" includes="**/jalo/*" excludes="**/testsrc/**/jalo/*"/>
+            <fileset dir="./custom-cx/core-customize/" includes="**/jalo/components/*" excludes="**/testsrc/**/jalo/*"/>
+        </delete>
+    </target>
+</project>
