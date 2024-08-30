@@ -3,6 +3,7 @@ import { translationChunksConfig, translations } from "@spartacus/assets";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from "@spartacus/core";
 import { defaultB2bOccConfig } from "@spartacus/setup";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacus/storefront";
+import { SmartEditConfig } from '@spartacus/smartedit/root';
 
 @NgModule({
   declarations: [],
@@ -30,6 +31,12 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from "@spartacu
     features: {
       level: '2211.27'
     }
-  }), provideConfig(defaultB2bOccConfig)]
+  }), provideConfig(defaultB2bOccConfig),
+      provideConfig({
+        smartEdit: {
+          storefrontPreviewRoute: 'cx-preview',
+          allowOrigin: 'localhost:9002,*.*.model-t.cc.commerce.ondemand.com:443',
+        }
+        } as SmartEditConfig)]
 })
 export class SpartacusConfigurationModule { }
