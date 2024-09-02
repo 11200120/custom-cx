@@ -62,6 +62,10 @@
         {
           "name": "oauth2",
           "contextPath": "/authorizationserver"
+        },
+        {
+          "name": "sagajiintegration",
+          "contextPath": "/sagajiintegration"
         }
       ]
     },
@@ -199,6 +203,10 @@
         {
           "name": "commercewebservices",
           "contextPath": "/occ"
+        },
+        {
+          "name": "sagajiintegration",
+          "contextPath": "/sagajiintegration"
         }
       ]
     }
