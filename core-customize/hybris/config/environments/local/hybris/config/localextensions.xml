@@ -11,6 +11,7 @@
     <extension name='sagajitest'/>
     <extension name='sagajistorefront'/>
     <extension name='sagajib2bwebservices'/>
+    <extension name='sagajiintegration'/>
 
     <extension name='adaptivesearch' />
     <extension name='adaptivesearchbackoffice' />
